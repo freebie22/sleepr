@@ -36,6 +36,7 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-namespace': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
     },
   },
