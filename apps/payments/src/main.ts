@@ -10,10 +10,10 @@ async function bootstrap() {
 
   app.useLogger(app.get(Logger));
   app.connectMicroservice({
-    transport: Transport.TCP,
+    transport: Transport.RMQ,
     options: {
-      host: '0.0.0.0',
-      port: configService.get('TCP_PORT'),
+      urls: [configService.getOrThrow('RABBITMQ_URI')],
+      queue: 'payments',
     },
   });
   await app.startAllMicroservices();
