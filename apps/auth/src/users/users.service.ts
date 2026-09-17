@@ -15,15 +15,11 @@ export class UsersService {
   private async validateUserDto(
     createUserDto: CreateUserDto,
   ): Promise<boolean> {
-    const user = await this.usersRepository.findOne({
+    console.log(createUserDto);
+
+    return await this.usersRepository.checkIfUserNotExists({
       email: createUserDto.email,
     });
-
-    if (user) {
-      return false;
-    }
-
-    return true;
   }
 
   async create(createUserDto: CreateUserDto) {

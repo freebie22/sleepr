@@ -3,7 +3,10 @@ import { UsersController } from './users.controller';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { DatabaseModule } from '@app/common';
-import { UserDocument, UserSchema } from './models/user.schema';
+import {
+  UserDocument,
+  UserSchema,
+} from '../../../../libs/common/src/models/user.schema';
 import { UsersRepository } from './users.repository';
 import { LoggerModule } from '@app/common/logger';
 

@@ -3,6 +3,7 @@ import { ReservationsModule } from './reservations.module';
 import { ValidationPipe } from '@nestjs/common';
 import { Logger } from 'nestjs-pino';
 import { ConfigService } from '@nestjs/config';
+import { Transport } from '@nestjs/microservices';
 const cookieParser = require('cookie-parser');
 
 async function bootstrap() {
@@ -11,6 +12,14 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
   app.use(cookieParser());
   const configService = app.get(ConfigService);
-  await app.listen(configService.get('PORT') as number);
+  app.connectMicroservice({
+    transport: Transport.TCP,
+    options: {
+      host: '0.0.0.0',
+      port: configService.get('TCP_PORT'),
+    },
+  });
+  await app.startAllMicroservices();
+  await app.listen(configService.get('HTTP_PORT') as number);
 }
 bootstrap();
