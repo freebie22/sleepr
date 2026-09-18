@@ -16,7 +16,7 @@ async function bootstrap() {
     transport: Transport.RMQ,
     options: {
       urls: [configService.getOrThrow('RABBITMQ_URI')],
-      queue: 'payments',
+      queue: 'reservations',
     },
   });
   await app.startAllMicroservices();

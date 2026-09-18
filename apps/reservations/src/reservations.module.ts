@@ -28,6 +28,7 @@ import { AUTH_SERVICE, PAYMENTS_SERVICE } from '@app/common/constants/services';
         TCP_PORT: Joi.number().required(),
         AUTH_HOST: Joi.string().required(),
         PAYMENTS_HOST: Joi.string().required(),
+        RABBITMQ_URI: Joi.string().required(),
         AUTH_PORT: Joi.number().required(),
         PAYMENTS_PORT: Joi.number().required(),
       }),
@@ -35,22 +36,22 @@ import { AUTH_SERVICE, PAYMENTS_SERVICE } from '@app/common/constants/services';
     ClientsModule.registerAsync([
       {
         name: AUTH_SERVICE,
-        useFactory: (configSerivce: ConfigService) => ({
-          transport: Transport.TCP,
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.RMQ,
           options: {
-            host: configSerivce.get('AUTH_HOST'),
-            port: configSerivce.get('AUTH_PORT'),
+            urls: [configService.get('RABBITMQ_URI')],
+            queue: 'auth',
           },
         }),
         inject: [ConfigService],
       },
       {
         name: PAYMENTS_SERVICE,
-        useFactory: (configSerivce: ConfigService) => ({
-          transport: Transport.TCP,
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.RMQ,
           options: {
-            host: configSerivce.get('PAYMENTS_HOST'),
-            port: configSerivce.get('PAYMENTS_PORT'),
+            urls: [configService.get('RABBITMQ_URI')],
+            queue: 'payments',
           },
         }),
         inject: [ConfigService],
